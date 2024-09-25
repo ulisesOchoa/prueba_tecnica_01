@@ -32,4 +32,12 @@
     ````
    docker compose exec app-prueba php artisan migrate --seed
     ````
-    
+6. intala dependencias
+    ````
+   npm install
+   ````
+   
+7. ejecuta la aplicación
+    ````
+   npm install && npm run dev
+   ````
