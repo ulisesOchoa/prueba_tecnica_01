@@ -14,7 +14,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CountySeeder::class,
             CitySeeder::class,
+            DepartmentSeeder::class,
             PositionSeeder::class,
+            UserSeeder::class
 //            EmployeePositionSeeder::class,
         ]);
     }

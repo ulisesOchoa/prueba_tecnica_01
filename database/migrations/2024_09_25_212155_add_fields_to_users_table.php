@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('last_name')->after('name');
             $table->string('identification')->unique()->after('email_verified_at');
-            $table->string('address')->after('identification');
+            $table->string('address')->nullable()->after('identification');
             $table->string('phone')->after('address');
             $table->foreignId('city_id')->nullable()->constrained()->onDelete('cascade')->after('phone');
             $table->boolean('is_boss')->default(false)->after('city_id');

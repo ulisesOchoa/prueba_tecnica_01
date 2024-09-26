@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\CityRepositoryInterface;
-use App\Models\City;
+use App\Interfaces\DepartmentRepositoryInterface;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
-class CityController extends Controller
+class DepartamentController extends Controller
 {
+    private DepartmentRepositoryInterface $repository;
 
-    private CityRepositoryInterface $repository;
-
-    public function __construct(CityRepositoryInterface $repository)
+    public function __construct(DepartmentRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -40,7 +39,7 @@ class CityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(City $city)
+    public function show(Department $departments)
     {
         //
     }
@@ -48,7 +47,7 @@ class CityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(City $city)
+    public function edit(Department $departments)
     {
         //
     }
@@ -56,7 +55,7 @@ class CityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, City $city)
+    public function update(Request $request, Department $departments)
     {
         //
     }
@@ -64,8 +63,15 @@ class CityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(City $city)
+    public function destroy(Department $departments)
     {
         //
+    }
+
+    public function getCities(int $cityId)
+    {
+        return response()->json(
+            $this->repository->getAllByCityId($cityId)
+        );
     }
 }

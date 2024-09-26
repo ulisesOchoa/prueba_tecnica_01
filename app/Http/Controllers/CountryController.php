@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\CountryRepositoryInterface;
 use App\Models\Country;
 use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    private CountryRepositoryInterface $repository;
+
+    public function __construct(CountryRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         //

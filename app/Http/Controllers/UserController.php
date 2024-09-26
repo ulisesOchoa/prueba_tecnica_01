@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
 use App\Interfaces\CityRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
@@ -23,47 +25,43 @@ class UserController extends Controller
     {
         $users = $this->repository->getAll();
         $cities = $this->cityRepository->getAll();
-        return view('user.user', compact('users', 'cities'));
+
+        return view('user.user', compact( 'users', 'cities' ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $cities = $this->cityRepository->getAll();
+        return view('user.create', compact( 'cities' ));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['password'] = bcrypt('password');
+        $this->repository->create($data);
+
+        return redirect()->route('users.index')->with('success', 'Usuario creado exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
-        //
+        $cities = $this->cityRepository->getAll();
+        return view('user.edit', compact( 'cities', 'user' ));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateRequest $request, User $user)
     {
-        //
+        $this->repository->update($user->id, $request->validated());
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado exitosamente.');
     }
 
     /**
@@ -71,6 +69,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $this->repository->delete($user->id);
+        return redirect()->route('users.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 }
