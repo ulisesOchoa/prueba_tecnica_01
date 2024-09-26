@@ -33,6 +33,16 @@ class UserRepository implements UserRepositoryInterface
 
     public function delete(int $id): bool
     {
-        return User::destroy($id);
+        $user = User::withTrashed()->find($id);
+
+        if ($user) {
+            if ($user->trashed()) {
+                return $user->forceDelete();
+            } else {
+                return $user->delete();
+            }
+        }
+
+        return false;
     }
 }

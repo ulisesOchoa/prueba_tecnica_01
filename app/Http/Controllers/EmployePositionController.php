@@ -2,64 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\UserRepositoryInterface;
 use App\Models\EmployePosition;
+use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EmployePositionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    private UserRepositoryInterface $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository) {
+        $this->userRepository = $userRepository;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'position_id' => 'required|exists:positions,id',
+        ]);
+
+        try {
+            EmployePosition::create([
+                'user_id' => $request->input('user_id'),
+                'position_id' => $request->input('position_id'),
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Posición asignada exitosamente.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Hubo un problema asignando la posición.'], 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(EmployePosition $employePosition)
+    public function getAvailablePositions($userId)
     {
-        //
-    }
+        $user = $this->userRepository->getById($userId);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(EmployePosition $employePosition)
-    {
-        //
-    }
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, EmployePosition $employePosition)
-    {
-        //
-    }
+        $positions = Position::from('positions as p')
+            ->select([
+                'p.id',
+                'p.name'
+            ])
+            ->leftJoin('employees_positions as ep', function($join) use ($user) {
+                $join->on('p.id', '=', 'ep.position_id')
+                    ->where('ep.user_id', '=', $user->id);
+            })
+            ->whereNull('ep.user_id')
+            ->get();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(EmployePosition $employePosition)
-    {
-        //
+        return response()->json($positions);
     }
 }
