@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\EmployePosition;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -44,5 +45,21 @@ class UserRepository implements UserRepositoryInterface
         }
 
         return false;
+    }
+
+    public function getBossesByUserId(int $id): Collection
+    {
+        return User::where('id', '!=', $id)->get();
+    }
+
+    public function addPositionToUser(int $id, array $data): bool
+    {
+        EmployePosition::create([
+            'role' => $data['role'],
+            'user_id' => $data['user_id'],
+            'position_id' => $data['position_id'],
+        ]);
+
+        return true;
     }
 }

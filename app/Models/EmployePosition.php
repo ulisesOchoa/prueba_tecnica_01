@@ -13,6 +13,7 @@ class EmployePosition extends Model
 
     protected $fillable = [
         'user_id',
+        'role',
         'position_id',
     ];
 

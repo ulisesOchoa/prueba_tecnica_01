@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('phone')->after('address');
             $table->foreignId('city_id')->nullable()->constrained()->onDelete('cascade')->after('phone');
             $table->boolean('is_boss')->default(false)->after('city_id');
+
+            $table->unsignedBigInteger('boss_id')->nullable()->after('id');
+            $table->foreign('boss_id')->references('id')->on('users')->onDelete('set null');
             $table->softDeletes();
         });
     }
@@ -34,7 +37,8 @@ return new class extends Migration
                 'address',
                 'phone',
                 'city_id',
-                'is_boss'
+                'is_boss',
+                'boss_id'
             ]);
             $table->dropSoftDeletes();
         });

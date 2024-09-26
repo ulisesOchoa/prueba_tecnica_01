@@ -72,4 +72,10 @@ class UserController extends Controller
         $this->repository->delete($user->id);
         return redirect()->route('users.index')->with('success', 'Usuario eliminado exitosamente.');
     }
+
+    public function getBossesByUserId(User $user)
+    {
+        $users = $this->repository->getBossesByUserId($user->id);
+        return response()->json($users);
+    }
 }

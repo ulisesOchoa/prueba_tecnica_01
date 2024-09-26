@@ -27,6 +27,7 @@ class User extends Authenticatable
         'phone',
         'city_id',
         'is_boss',
+        'boss_id',
         'password',
     ];
 
@@ -55,7 +56,7 @@ class User extends Authenticatable
 
     public function positions()
     {
-        return $this->belongsToMany(Position::class);
+        return $this->hasMany(Position::class);
     }
 
     public function city()

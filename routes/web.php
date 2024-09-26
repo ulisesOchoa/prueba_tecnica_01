@@ -19,6 +19,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('users', UserController::class);
+    Route::get('/users/{user}/bosses-by-id', [UserController::class, 'getBossesByUserId'])->name('users.getBossesByUserId');
 
     Route::resource('countries', CountryController::class);
 

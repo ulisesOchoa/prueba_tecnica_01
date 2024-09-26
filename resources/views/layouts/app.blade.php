@@ -33,6 +33,9 @@
                         <a class="navbar-brand" href="{{ route('users.index') }}">
                             Empleados
                         </a>
+                        <a class="navbar-brand" href="{{ route('positions.index') }}">
+                            Cargos
+                        </a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
