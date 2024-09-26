@@ -78,4 +78,9 @@ class UserController extends Controller
         $users = $this->repository->getBossesByUserId($user->id);
         return response()->json($users);
     }
+
+    public function export(User $user)
+    {
+        // Nota: No se alcanzó a terminar la implementación de esta parte.
+    }
 }

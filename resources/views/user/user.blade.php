@@ -12,7 +12,10 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <span>{{ __('Users') }}</span>
-                        <a href="{{ route('users.create') }}" class="btn btn-primary">Create User</a>
+                        <div>
+                            <a href="{{ route('users.create') }}" class="btn btn-primary">Create User</a>
+                            <a href="{{ route('users.export') }}" class="btn btn-success">Download Excel</a>
+                        </div>
                     </div>
 
                     <div class="card-body">

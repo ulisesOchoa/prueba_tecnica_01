@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('users', UserController::class);
     Route::get('/users/{user}/bosses-by-id', [UserController::class, 'getBossesByUserId'])->name('users.getBossesByUserId');
+    Route::get('/users/export', [UserController::class, 'export'])->name('users.export');
 
     Route::resource('countries', CountryController::class);
 
